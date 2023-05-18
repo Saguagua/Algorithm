@@ -3,65 +3,50 @@
 #include <queue>
 
 using namespace std;
-
-vector<int> visited;
-
 #include <string>
 #include <vector>
+#include <queue>
+#include <iostream>
 
 using namespace std;
-
-#include <string>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
-vector<int> used;
-
-vector<string> DFS(vector<vector<string>>& v, string start)
+struct Compare
 {
-    vector<string> answer;
+    bool operator()(const pair<int, int> p1, const pair<int, int> p2)
+    {
+        return p1.second > p2.second;
+    }
+};
+
+
+int solution(vector<int> array) {
+    if (array.size() == 1)
+        return array[0];
+
+    priority_queue < pair<int, int>, vector<pair<int, int>>, Compare> pq;
+    vector<int> v = vector<int>(array.size(), 0);
+
+    for (int i = 0; i < array.size(); i++)
+    {
+        cout << array[i] - 1 << endl;
+        v[array[i] - 1]++;
+    }
 
     for (int i = 0; i < v.size(); i++)
     {
-        if (used[i])
-            continue;
-        if (v[i][0] != start)
-            continue;
-        used[i] = true;
-        vector<string> tmp = DFS(v, v[i][1]);
-
-        if (tmp.size() > answer.size())
-            answer = tmp;
-        else if (tmp.size() == answer.size())
-        {
-            for (int i = tmp.size()-1; i >= 0; i--)
-            {
-                if (tmp[i] < answer[i])
-                {
-                    answer = tmp;
-                    break;
-                }
-                else if (tmp[i] > answer[i])
-                    break;
-            }
-        }
-        used[i] = false;
+        pair<int, int> pair = { i + 1, v[i] };
+        pq.push(pair);
     }
-    answer.push_back(start);
-    return answer;
+    auto pair1 = pq.top();
+    pq.pop();
+    auto pair2 = pq.top();
+
+    cout << pair1.second << endl;
+    cout << pair2.second << endl;
+
+    return pair1.second > pair2.second ? pair1.first : -1;
 }
 
-vector<string> solution(vector<vector<string>> tickets) {
-    used.resize(tickets.size(), false);
-    vector<string> answer = DFS(tickets, "ICN");
-    std::reverse(answer.begin(), answer.end());
-    return answer;
-}
 void main()
 {
-    vector<vector<string>> c = { {"ICN", "SFO"} ,{"ICN", "ATL"},{"SFO", "ATL"},{"ATL", "ICN"},{"ATL", "SFO"} };
-    vector<vector<string>> d = { {"ICN", "JFK"},{"HND", "IAD"},{"JFK", "HND"}};
-    solution(c);
+    
 }
