@@ -17,7 +17,7 @@ int Combine(int n, int m)
 	if (m == 0 || n == m)
 		return 1;
 	
-	if (n < m || m == 0)
+	if (n < m)
 		return 0;
 	//메모이제이션
 	if (v[n][m] != -1)

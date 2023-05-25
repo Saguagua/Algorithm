@@ -1,52 +1,50 @@
 #include <string>
 #include <vector>
-#include <queue>
+#include <sstream>
 
 using namespace std;
-#include <string>
-#include <vector>
-#include <queue>
-#include <iostream>
 
-using namespace std;
-struct Compare
-{
-    bool operator()(const pair<int, int> p1, const pair<int, int> p2)
+vector<string> solution(vector<string> quiz) {
+    vector<string> answer = vector<string>(quiz.size());
+    vector<string> split;
+    string word;
+
+    for (int i = 0; i < quiz.size(); i++)
     {
-        return p1.second > p2.second;
+        split.clear();
+        stringstream ss(quiz[i]);
+
+        while (ss >> word)
+        {
+            split.push_back(word);
+        }
+        int num1 = std::stoi(split[0]);
+        int num2 = std::stoi(split[2]);
+        int result = std::stoi(split[4]);
+
+        if (split[1] == "+")
+        {
+            if (num1 + num2 == result)
+                answer[i] = "O";
+            else
+                answer[i] = "X";
+        }
+        else
+        {
+            if (num1 - num2 == result)
+                answer[i] = "O";
+            else
+                answer[i] = "X";
+        }
+
     }
-};
 
-
-int solution(vector<int> array) {
-    if (array.size() == 1)
-        return array[0];
-
-    priority_queue < pair<int, int>, vector<pair<int, int>>, Compare> pq;
-    vector<int> v = vector<int>(array.size(), 0);
-
-    for (int i = 0; i < array.size(); i++)
-    {
-        cout << array[i] - 1 << endl;
-        v[array[i] - 1]++;
-    }
-
-    for (int i = 0; i < v.size(); i++)
-    {
-        pair<int, int> pair = { i + 1, v[i] };
-        pq.push(pair);
-    }
-    auto pair1 = pq.top();
-    pq.pop();
-    auto pair2 = pq.top();
-
-    cout << pair1.second << endl;
-    cout << pair2.second << endl;
-
-    return pair1.second > pair2.second ? pair1.first : -1;
+    return answer;
 }
-
 void main()
 {
-    
+    vector<string> v = { "p", "o", "s" };
+    vector<string> v2 = { "3 - 4 = -3", "5 + 6 = 11"};
+    vector<int> v3 = {7, 77, 17};
+    solution(v2);
 }
